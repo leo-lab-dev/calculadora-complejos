@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Números Complejos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img class="app-logo" src="logo.png" alt="Logotipo" />
+        <h1>Calculadora de <span>Complejos</span></h1>
+        <p>Operaciones, polar y grafica</p>
+      </header>
+
+      <!-- Input card -->
+      <div class="card">
+        <div class="mode-row" style="margin-bottom: 14px">
+          <span class="mode-label">Calculo</span>
+          <div class="mode-tabs" id="exprModeTabs">
+            <button class="mode-btn active" type="button" data-mode="simple">
+              Simple
+            </button>
+            <button class="mode-btn" type="button" data-mode="combined">
+              Combinado
+            </button>
+          </div>
+          <span class="mode-hint" id="exprModeHint">Z₁ y Z₂</span>
+        </div>
+        <div class="mode-row">
+          <span class="mode-label">Modo</span>
+          <div class="mode-tabs" id="inputModeTabs">
+            <button class="mode-btn active" type="button" data-mode="rect">
+              Binomica
+            </button>
+            <button class="mode-btn" type="button" data-mode="polar">
+              Polar
+            </button>
+          </div>
+          <span class="mode-hint" id="modeHint">Re/Im</span>
+          <span class="mode-badge" id="modeBadge" style="display: none">Polar activo</span>
+        </div>
+        <div class="mode-row unit-row" id="unitRow">
+          <span class="mode-label">Angulo</span>
+          <div class="mode-tabs" id="angleUnitTabs">
+            <button class="mode-btn active" type="button" data-unit="rad">
+              rad
+            </button>
+            <button class="mode-btn" type="button" data-unit="deg">
+              deg
+            </button>
+          </div>
+          <span class="mode-hint">r∠θ</span>
+        </div>
+        <div class="inputs-grid" id="simpleInputs">
+          <div class="complex-input">
+            <div class="input-label">
+              <span class="badge badge-z1">Z₁</span> Primer número
+            </div>
+            <div class="part-row rect-row">
+              <span class="part-label real">Re</span>
+              <input type="number" id="z1r" value="3" step="any" />
+            </div>
+            <div class="part-row rect-row">
+              <span class="part-label imag">Im</span>
+              <input type="number" id="z1i" value="2" step="any" />
+            </div>
+            <div class="part-row polar-row">
+              <span class="part-label">Pol</span>
+              <input
+                type="text"
+                id="z1p"
+                placeholder="Ej: 5∠1.2"
+              />
+              <button class="angle-btn" type="button" data-target="z1p">∠</button>
+            </div>
+            <div class="complex-preview" id="prev1"></div>
+          </div>
+
+          <div class="complex-input">
+            <div class="input-label">
+              <span class="badge badge-z2">Z₂</span> Segundo número
+            </div>
+            <div class="part-row rect-row">
+              <span class="part-label real">Re</span>
+              <input type="number" id="z2r" value="1" step="any" />
+            </div>
+            <div class="part-row rect-row">
+              <span class="part-label imag">Im</span>
+              <input type="number" id="z2i" value="-4" step="any" />
+            </div>
+            <div class="part-row polar-row">
+              <span class="part-label">Pol</span>
+              <input
+                type="text"
+                id="z2p"
+                placeholder="Ej: 2∠-0.6"
+              />
+              <button class="angle-btn" type="button" data-target="z2p">∠</button>
+            </div>
+            <div class="complex-preview" id="prev2"></div>
+          </div>
+        </div>
+
+        <div class="ops-row" id="simpleOps">
+          <button class="op-btn active" data-op="+">+</button>
+          <button class="op-btn" data-op="-">−</button>
+          <button class="op-btn" data-op="*">×</button>
+          <button class="op-btn" data-op="/">÷</button>
+        </div>
+
+        <div
+          class="part-row"
+          id="exprRow"
+          style="
+            margin-top: 12px;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 8px;
+            display: none;
+          "
+        >
+          <label for="exprInput" class="part-label" style="width: auto"
+            >Expresión completa</label
+          >
+          <input
+            type="text"
+            id="exprInput"
+            placeholder="Ej: (3+2i)*(1-4i)+(2+i)"
+          />
+          <small style="color: var(--muted)"
+            >Escribe una expresion completa con numeros complejos. Admite
+            parentesis, +, -, *, / y forma polar r∠θ. Se respeta la prioridad
+            de operadores (* y / antes que + y -).</small
+          >
+          <small style="color: var(--muted)"
+            >Ejemplos: <strong>(3+2i)+(1-4i)</strong> ·
+            <strong>((2+i)*(3-i))/(1-2i)</strong> ·
+            <strong>(4∠1.5)-(1∠0.3)</strong> ·
+            <strong>((1+2i)-(3-4i))*(2+i)</strong></small
+          >
+        </div>
+
+        <button class="calc-btn" id="calcBtn">Calcular</button>
+      </div>
+
+      <!-- Error -->
+      <div class="error-msg" id="errorMsg"></div>
+
+      <!-- Result card -->
+      <div class="result-card" id="resultCard">
+        <div class="result-header">
+          <div class="section-label">Resultado</div>
+          <span class="result-badge" id="resultPolarBadge" style="display: none">
+            Polar
+          </span>
+          <button class="copy-btn" id="copyResult" type="button" disabled>
+            Copiar
+          </button>
+        </div>
+        <div class="result-main" id="resultMain">
+          <span
+            style="
+              color: var(--muted);
+              font-size: 0.85rem;
+              font-family: &quot;IBM Plex Mono&quot;, monospace;
+            "
+            >Ingresa los valores y presiona Calcular</span
+          >
+        </div>
+        <div class="result-details" id="resultDetails" style="display: none">
+          <div class="detail-chip">
+            <span class="d-label">Módulo</span>
+            <span class="d-value" id="detMod">—</span>
+          </div>
+          <div class="detail-chip">
+            <span class="d-label">Arg (rad)</span>
+            <span class="d-value" id="detArg">—</span>
+          </div>
+          <div class="detail-chip">
+            <span class="d-label">Arg (deg)</span>
+            <span class="d-value" id="detArgDeg">—</span>
+          </div>
+          <div class="detail-chip">
+            <span class="d-label">Polar</span>
+            <span class="d-value" id="detPolar">—</span>
+          </div>
+          <div class="detail-chip">
+            <span class="d-label">Conjugado</span>
+            <span class="d-value" id="detConj">—</span>
+          </div>
+        </div>
+        <div
+          class="fraction-toggle"
+          id="fractionToggleRow"
+          style="display: none"
+        >
+          <label class="toggle">
+            <input type="checkbox" id="fractionToggle" />
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">Mostrar como fracción</span>
+        </div>
+        <div class="fraction-display" id="fractionDisplay"></div>
+        <div class="steps-toggle" id="stepsToggleRow" style="display: none">
+          <button class="steps-btn" id="stepsToggle" type="button">
+            Ver pasos
+          </button>
+        </div>
+        <div class="steps-list" id="stepsList" style="display: none"></div>
+      </div>
+
+      <!-- Graph card -->
+      <div class="graph-card" id="graphCard">
+        <div class="graph-header">
+          <span class="section-label" style="margin-bottom: 0"
+            >Plano Complejo</span
+          >
+          <div class="graph-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--z1col)"></div>
+              Z₁
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--z2col)"></div>
+              Z₂
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--rescol)"></div>
+              Resultado
+            </div>
+          </div>
+          <div class="graph-actions">
+            <button class="graph-btn" id="gridToggle" type="button">
+              Cuadricula
+            </button>
+            <button class="graph-btn" id="resetView" type="button">
+              Reset
+            </button>
+          </div>
+        </div>
+        <canvas id="complexPlane"></canvas>
+        <div class="graph-empty" id="graphEmpty">
+          Calcula una operación para ver la gráfica
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="card">
+        <div class="history-header">
+          <span class="section-label" style="margin-bottom: 0">Historial</span>
+          <button class="clear-btn" id="clearHistory">Limpiar</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <div class="history-empty">Sin operaciones aún</div>
+        </div>
+      </div>
+    </div>
+    <script src="js/complex.js"></script>
+    <script src="js/format.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/expression.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

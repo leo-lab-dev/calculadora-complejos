@@ -1,0 +1,111 @@
+:root {
+  --bg:      #111311;
+  --surface: #191b18;
+  --panel:   #22251f;
+  --border:  #353a31;
+  --accent:  #f29b4c;
+  --accent2: #cf5b2e;
+  --gold:    #e7c26a;
+  --real:    #f0b356;
+  --imag:    #d28a47;
+  --z1col:   #f0b356;
+  --z2col:   #6fd0b3;
+  --rescol:  #f06a42;
+  --text:    #f6f0e6;
+  --muted:   #9d907e;
+  --error:   #e56a63;
+  --shadow:  0 12px 30px rgba(8, 8, 8, 0.35);
+  --glow:    0 0 0 1px rgba(242, 155, 76, 0.22), 0 18px 40px rgba(242, 155, 76, 0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: radial-gradient(900px 600px at 10% 10%, rgba(242,155,76,0.08), transparent 60%),
+              radial-gradient(700px 500px at 90% -10%, rgba(111,208,179,0.09), transparent 55%),
+              var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 22px 54px;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -25%;
+  left: -10%;
+  width: 65%;
+  height: 65%;
+  background: radial-gradient(ellipse, rgba(242,155,76,0.07) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -30%;
+  right: -15%;
+  width: 65%;
+  height: 65%;
+  background: radial-gradient(ellipse, rgba(111,208,179,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { position:relative; z-index:1; width:100%; max-width:680px; }
+
+header { text-align:center; margin-bottom:28px; }
+
+.app-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin: 0 auto 10px;
+  display: block;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+}
+
+header h1 {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+
+header h1 span {
+  background: linear-gradient(120deg, var(--gold), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+header p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(242, 155, 76, 0.45);
+  outline-offset: 2px;
+}
