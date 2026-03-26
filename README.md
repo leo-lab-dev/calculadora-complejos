@@ -1,5 +1,12 @@
 # Calculadora de Numeros Complejos
 
+![Repositorio](https://img.shields.io/badge/repo-leo--lab--dev%2Fcalculadora--complejos-22251f?style=flat-square)
+![Estado](https://img.shields.io/badge/status-activo-6fd0b3?style=flat-square)
+![Licencia](https://img.shields.io/badge/licencia-MIT-f29b4c?style=flat-square)
+![GitHub Pages](https://img.shields.io/badge/demo-github%20pages-6fd0b3?style=flat-square)
+
+Demo: https://leo-lab-dev.github.io/calculadora-complejos/
+
 Aplicacion web para operaciones con numeros complejos, evaluacion de expresiones y visualizacion en el plano complejo. Incluye modo binomica/polar, historial interactivo, pasos para expresiones combinadas y conversion a fracciones cuando aplica.
 
 ## Caracteristicas principales
@@ -86,3 +93,7 @@ Si hay un error de sintaxis, se subraya el token invalido y se muestra un toolti
 - Resultado inesperado en polar: verifica si la unidad esta en rad o deg.
 - Division por cero: Z2 no puede ser 0 en el modo Simple.
 - La grafica no aparece: calcula una operacion primero; el plano se muestra con resultados.
+
+## Licencia
+
+Este proyecto se publica bajo la licencia MIT.
